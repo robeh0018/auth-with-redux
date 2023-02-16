@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/useForm.js';
-import { startSignInWithGoogle } from '../../store/auth/thunks.js';
+import { startLoginWithEmailAndPass, startSignInWithGoogle } from '../../store/auth/thunks.js';
 
 
 const initialState = {
@@ -21,17 +21,21 @@ export const LoginPage = () => {
 
     const dispatch = useDispatch();
 
+
     const onSubmit = (event) => {
         event.preventDefault();
 
-        console.log(formState)
+       dispatch( startLoginWithEmailAndPass({email , password}) );
+
     };
+
 
     const onGoogleSignIn = () => {
 
         dispatch( startSignInWithGoogle({ email, password }) )
 
     };
+
 
     const goToRegister = () => {
         navigate('/auth/register');
@@ -95,9 +99,9 @@ export const LoginPage = () => {
                               xs={12}
                             >
                                 <Button
+                                    type='submit'
                                     variant='contained'
                                     fullWidth
-                                    type='submit'
                                 >
                                     Sign In
                                 </Button>

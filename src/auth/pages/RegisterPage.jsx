@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Button, Grid, TextField } from '@mui/material';
+import LoopIcon from '@mui/icons-material/Loop';
 
 import { AuthLayout } from '../layout/AuthLayout';
-import { useForm } from '../../hooks/useForm.js';
-import { startRegisterUser } from '../../store/auth/thunks.js';
+import { useRegister } from '../hooks/useRegister.js';
 
 
 const initialState = {
@@ -13,24 +11,16 @@ const initialState = {
     password: '',
 };
 
+const validationForms = {
+    displayName: [ (value) => value.length >= 2, 'Name should have 2 or more characters' ],
+    email: [ (value) => value.includes('@'), 'Email should have one @' ],
+    password: [ (value) => value.length >= 6, 'Password should have 6 or more characters' ],
+};
 
 export const RegisterPage = () => {
 
-    const navigate = useNavigate();
-
-    const dispatch = useDispatch();
-
-    const { displayName, password, email,  onInputChange, formState } = useForm( initialState );
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        dispatch( startRegisterUser({ email, password, displayName }) );
-
-    };
-
-    const goToLogin = () => {
-        navigate('/auth/login');
-    };
+   const { formState, formSubmitted, onSubmit, goToLogin, onInputChange, displayName, password, email,
+       isFormValid, emailValid, passwordValid, displayNameValid, } = useRegister(initialState, validationForms);
 
     return (
         <>
@@ -63,6 +53,8 @@ export const RegisterPage = () => {
                                     name='displayName'
                                     value={ displayName }
                                     onChange={ onInputChange }
+                                    error={ !!displayNameValid && formSubmitted }
+                                    helperText={ displayNameValid }
                                 />
                             </Grid>
 
@@ -77,6 +69,8 @@ export const RegisterPage = () => {
                                     name='email'
                                     value={ email }
                                     onChange={ onInputChange }
+                                    error={ !!emailValid && formSubmitted }
+                                    helperText={ emailValid }
                                 />
                             </Grid>
 
@@ -91,6 +85,8 @@ export const RegisterPage = () => {
                                     name='password'
                                     value={ password }
                                     onChange={ onInputChange }
+                                    error={ !!passwordValid && formSubmitted }
+                                    helperText={ passwordValid }
                                 />
                             </Grid>
 

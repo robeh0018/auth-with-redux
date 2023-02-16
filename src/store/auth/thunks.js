@@ -1,5 +1,10 @@
 import { checkingCredentials, login, logout } from './authSlice.js';
-import { registerUserWithEmailPasswordAndDisplayName, signInWithGoogle } from '../../firebase/providers.js';
+import {
+    loginWithEmailAndPass,
+    registerUserWithEmailPasswordAndDisplayName,
+    signInWithGoogle
+} from '../../firebase/providers.js';
+
 
 
 export const startSignInWithGoogle = ({ email, password }) => {
@@ -36,5 +41,16 @@ export const startRegisterUser = ({ email, password, displayName }) => {
 };
 
 
+export const startLoginWithEmailAndPass = ({ email, password }) => {
+    return  async (dispatch) => {
 
+        await dispatch( checkingCredentials() );
 
+        const { uid ,displayName, success, errorMessage } = await loginWithEmailAndPass({ email, password });
+
+        if ( !success ) return await dispatch( logout({ errorMessage }) );
+
+        await dispatch( login( { uid ,displayName, email }) );
+
+    };
+};
