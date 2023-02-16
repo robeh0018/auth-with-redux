@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Button, Grid, TextField } from '@mui/material';
 
 import { AuthLayout } from '../layout/AuthLayout';
-import { useForm } from "../../hooks/useForm.js";
-import { useState } from "react";
+import { useForm } from '../../hooks/useForm.js';
+import { startRegisterUser } from '../../store/auth/thunks.js';
+
 
 const initialState = {
     displayName: '',
@@ -16,15 +18,14 @@ export const RegisterPage = () => {
 
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
+
     const { displayName, password, email,  onInputChange, formState } = useForm( initialState );
-    const [ formSubmitted, setFormSubmitted ] = useState(false);
 
     const onSubmit = (event) => {
         event.preventDefault();
+        dispatch( startRegisterUser({ email, password, displayName }) );
 
-        setFormSubmitted(true);
-
-        console.log(formState);
     };
 
     const goToLogin = () => {
