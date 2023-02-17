@@ -1,5 +1,4 @@
 import { Button, Grid, TextField } from '@mui/material';
-import LoopIcon from '@mui/icons-material/Loop';
 
 import { AuthLayout } from '../layout/AuthLayout';
 import { useRegister } from '../hooks/useRegister.js';
@@ -20,7 +19,7 @@ const validationForms = {
 export const RegisterPage = () => {
 
    const { formState, formSubmitted, onSubmit, goToLogin, onInputChange, displayName, password, email,
-       isFormValid, emailValid, passwordValid, displayNameValid, } = useRegister(initialState, validationForms);
+       isFormValid, emailValid, passwordValid, displayNameValid, } = useRegister( initialState, validationForms );
 
     return (
         <>
