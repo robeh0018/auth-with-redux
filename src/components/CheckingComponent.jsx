@@ -1,7 +1,7 @@
 import { CircularProgress, Grid} from '@mui/material';
 
 
-export const CheckingView = () => {
+export const CheckingComponent = () => {
 
     return (
         <>

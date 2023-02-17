@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { Grid, Typography, TextField, Button } from '@mui/material';
+import { Grid, Typography, TextField, Button, Alert } from '@mui/material';
 import { Google } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { AuthLayout } from '../layout/AuthLayout';
-import { useForm } from '../../hooks/useForm.js';
-import { startLoginWithEmailAndPass, startSignInWithGoogle } from '../../store/auth/thunks.js';
+import { useLogin } from '../hooks/useLogin.js';
 
 
 const initialState = {
@@ -15,31 +13,9 @@ const initialState = {
 
 export const LoginPage = () => {
 
-    const navigate = useNavigate();
+    const { errorMessage } = useSelector( state => state.auth );
 
-    const { formState, onInputChange, email, password } = useForm( initialState );
-
-    const dispatch = useDispatch();
-
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-
-       dispatch( startLoginWithEmailAndPass({email , password}) );
-
-    };
-
-
-    const onGoogleSignIn = () => {
-
-        dispatch( startSignInWithGoogle({ email, password }) )
-
-    };
-
-
-    const goToRegister = () => {
-        navigate('/auth/register');
-    };
+    const { formState, goToRegister , onGoogleSignIn, onSubmit,  onInputChange, email, password } = useLogin( initialState );
 
     return (
         <>
@@ -84,6 +60,21 @@ export const LoginPage = () => {
                                     value={ password }
                                     onChange={ onInputChange }
                                 />
+                            </Grid>
+                        </Grid>
+
+
+                        <Grid container
+                              marginX={2}
+                        >
+                            <Grid item
+                                  xs={12}
+                                  sx={{mt: 1}}
+                                  display={ !!errorMessage ? '' : 'none'}
+                            >
+                                <Alert severity='error'>
+                                    { errorMessage }
+                                </Alert>
                             </Grid>
                         </Grid>
 

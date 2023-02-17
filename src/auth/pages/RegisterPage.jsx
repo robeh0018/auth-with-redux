@@ -1,4 +1,5 @@
-import { Button, Grid, TextField } from '@mui/material';
+import { Alert, Button, Grid, TextField } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { AuthLayout } from '../layout/AuthLayout';
 import { useRegister } from '../hooks/useRegister.js';
@@ -18,7 +19,9 @@ const validationForms = {
 
 export const RegisterPage = () => {
 
-   const { formState, formSubmitted, onSubmit, goToLogin, onInputChange, displayName, password, email,
+    const { errorMessage } = useSelector( state => state.auth );
+
+    const { formState, formSubmitted, onSubmit, goToLogin, onInputChange, displayName, password, email,
        isFormValid, emailValid, passwordValid, displayNameValid, } = useRegister( initialState, validationForms );
 
     return (
@@ -89,6 +92,17 @@ export const RegisterPage = () => {
                                 />
                             </Grid>
 
+                        </Grid>
+
+
+                        <Grid item
+                              xs={12}
+                              sx={{mt: 1}}
+                              display={ !!errorMessage ? '' : 'none'}
+                        >
+                            <Alert severity='error'>
+                                { errorMessage }
+                            </Alert>
                         </Grid>
 
 

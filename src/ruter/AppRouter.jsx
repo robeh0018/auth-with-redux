@@ -2,14 +2,14 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector}  from "react-redux";
 
 import { AuthRouter } from '../auth/router/AuthRouter';
-import { CheckingView } from '../components/CheckingView';
+import { CheckingComponent } from '../components/CheckingComponent.jsx';
 
 
 export const AppRouter = () => {
 
     const { status } = useSelector( state => state.auth);
 
-    if (status === 'checking') return (<CheckingView/>);
+    if (status === 'checking') return (<CheckingComponent/>);
 
     return (
         <Routes>
